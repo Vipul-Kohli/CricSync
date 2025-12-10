@@ -1,0 +1,5 @@
+{
+  "name": "CricSync",
+  "description": "Extract match schedules from text or screenshots and generate formatted WhatsApp availability messages for your cricket team.",
+  "requestFramePermissions": []
+}
