@@ -32,84 +32,84 @@ export const MatchList: React.FC<MatchListProps> = ({ matches, onUpdateMatch, on
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between px-2">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-          <span className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/20 text-brand-orange flex items-center justify-center text-sm font-bold shadow-sm">{matches.length}</span>
+    <div className="space-y-3">
+      <div className="flex items-center justify-between px-1">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <span className="w-7 h-7 rounded-full bg-orange-100 dark:bg-orange-900/20 text-brand-orange flex items-center justify-center text-xs font-bold shadow-sm">{matches.length}</span>
           Matches
         </h3>
-        <div className="flex items-center gap-3">
-          <button onClick={onAddMatch} className="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-brand-blue">
-            <Plus size={18} strokeWidth={2.5} />
+        <div className="flex items-center gap-2">
+          <button onClick={onAddMatch} className="w-7 h-7 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-brand-blue">
+            <Plus size={16} strokeWidth={2.5} />
           </button>
-          <button onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')} className="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-500">
-            <ArrowUpDown size={16} />
+          <button onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')} className="w-7 h-7 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-500">
+            <ArrowUpDown size={14} />
           </button>
-          <button onClick={onClearAll} className="text-xs font-bold text-red-500 px-3 py-1.5 bg-red-50 rounded-full">
+          <button onClick={onClearAll} className="text-[10px] font-bold text-red-500 px-2.5 py-1 bg-red-50 rounded-full">
             Clear
           </button>
         </div>
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         {sortedMatches.map((match) => (
           <div 
             key={match.id}
             onClick={() => onUpdateMatch(match.id, { selected: !match.selected })}
-            className={`relative bg-white dark:bg-gray-800 rounded-[2rem] p-5 shadow-soft border-2 transition-all cursor-pointer group ${
+            className={`relative bg-white dark:bg-gray-800 rounded-3xl p-4 shadow-soft border-2 transition-all cursor-pointer group ${
                 match.selected ? 'border-brand-blue' : 'border-transparent hover:border-gray-100 dark:hover:border-gray-700'
             }`}
           >
             {/* Selection Checkbox */}
-            <div className={`absolute top-5 right-5 transition-colors ${match.selected ? 'text-brand-blue' : 'text-gray-300'}`}>
-                {match.selected ? <CheckCircle2 size={24} className="fill-blue-50" strokeWidth={2.5} /> : <Circle size={24} />}
+            <div className={`absolute top-4 right-4 transition-colors ${match.selected ? 'text-brand-blue' : 'text-gray-300'}`}>
+                {match.selected ? <CheckCircle2 size={20} className="fill-blue-50" strokeWidth={2.5} /> : <Circle size={20} />}
             </div>
 
             {/* Teams */}
-            <div className="pr-10 mb-4">
+            <div className="pr-8 mb-3">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand-blue">
-                        <Shield size={20} strokeWidth={2.5} />
+                    <div className="w-9 h-9 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand-blue">
+                        <Shield size={16} strokeWidth={2.5} />
                     </div>
                     <div>
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Versus</p>
-                        <h4 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">{match.opponent}</h4>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">My Team VS</p>
+                        <h4 className="text-base font-bold text-gray-900 dark:text-white leading-tight">{match.opponent}</h4>
                     </div>
                 </div>
             </div>
 
             {/* Match Info Grid */}
-            <div className="grid grid-cols-2 gap-3 mb-2">
-                <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-center gap-3">
-                    <Calendar size={18} className="text-brand-blue shrink-0" />
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{formatDate(match.date)}</span>
+            <div className="grid grid-cols-2 gap-2 mb-2">
+                <div className="bg-brand-input dark:bg-gray-900/50 p-2.5 rounded-xl flex items-center gap-2">
+                    <Calendar size={16} className="text-brand-blue shrink-0" />
+                    <span className="text-xs font-bold text-gray-700 dark:text-gray-200">{formatDate(match.date)}</span>
                 </div>
-                <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-center gap-3">
-                    <Clock size={18} className="text-brand-orange shrink-0" />
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{match.time}</span>
+                <div className="bg-brand-input dark:bg-gray-900/50 p-2.5 rounded-xl flex items-center gap-2">
+                    <Clock size={16} className="text-brand-orange shrink-0" />
+                    <span className="text-xs font-bold text-gray-700 dark:text-gray-200">{match.time}</span>
                 </div>
             </div>
             
             {/* Venue */}
-            <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-start gap-3">
-                <MapPin size={18} className="text-red-500 shrink-0 mt-0.5" />
+            <div className="bg-brand-input dark:bg-gray-900/50 p-2.5 rounded-xl flex items-start gap-2">
+                <MapPin size={16} className="text-red-500 shrink-0 mt-0.5" />
                 {match.mapLink ? (
-                    <a href={match.mapLink} target="_blank" className="text-sm font-bold text-gray-700 hover:text-brand-blue truncate underline decoration-dotted underline-offset-4" onClick={e => e.stopPropagation()}>
+                    <a href={match.mapLink} target="_blank" className="text-xs font-bold text-gray-700 hover:text-brand-blue truncate underline decoration-dotted underline-offset-4" onClick={e => e.stopPropagation()}>
                         {match.venue}
                     </a>
                 ) : (
-                    <span className="text-sm font-bold text-gray-700 truncate">{match.venue}</span>
+                    <span className="text-xs font-bold text-gray-700 truncate">{match.venue}</span>
                 )}
             </div>
 
             {/* Quick Actions */}
-            <div className="mt-4 flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="mt-3 flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
                  <button onClick={(e) => { e.stopPropagation(); onShareMatch(match.id); }} className="p-2 rounded-full bg-blue-50 text-brand-blue hover:bg-brand-blue hover:text-white transition-colors">
-                    <Share2 size={16} />
+                    <Share2 size={14} />
                  </button>
                  {match.matchUrl && (
                     <a href={match.matchUrl} target="_blank" onClick={e => e.stopPropagation()} className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
-                        <ExternalLink size={16} />
+                        <ExternalLink size={14} />
                     </a>
                  )}
             </div>

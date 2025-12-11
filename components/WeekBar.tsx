@@ -29,18 +29,18 @@ export const WeekBar: React.FC<WeekBarProps> = ({ matches }) => {
   const isToday = (date: Date) => date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-[2rem] p-4 shadow-soft">
-        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 text-center">Fixtures Calendar</h3>
-        <div className="grid grid-cols-7 gap-2">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-3 shadow-soft">
+        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 text-center">Fixtures Calendar</h3>
+        <div className="grid grid-cols-7 gap-1">
             {weekDays.map((date, i) => {
                 const hasMatch = matches.some(m => isSameDate(date, m.date));
                 const active = isToday(date);
                 
                 return (
                     <div key={i} className="flex flex-col items-center gap-1">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase">{date.toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 1)}</span>
+                        <span className="text-[9px] font-bold text-gray-400 uppercase">{date.toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 1)}</span>
                         <div 
-                            className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                                 hasMatch 
                                 ? 'bg-brand-orange text-white shadow-lg shadow-orange-500/30' 
                                 : active 
@@ -50,7 +50,7 @@ export const WeekBar: React.FC<WeekBarProps> = ({ matches }) => {
                         >
                             {date.getDate()}
                         </div>
-                        {hasMatch && <div className="w-1 h-1 bg-brand-orange rounded-full mt-1"></div>}
+                        {hasMatch && <div className="w-1 h-1 bg-brand-orange rounded-full mt-0.5"></div>}
                     </div>
                 );
             })}

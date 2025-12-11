@@ -122,40 +122,40 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-bg dark:bg-gray-900 pb-28 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-brand-bg dark:bg-gray-900 pb-24 text-gray-900 dark:text-gray-100">
       {/* Clean Modern Header */}
-      <header className="sticky top-0 z-20 bg-brand-bg/90 dark:bg-gray-900/90 backdrop-blur-md pt-safe">
-        <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-                <div className="bg-brand-blue text-white p-2 rounded-xl shadow-glow">
-                    <Trophy size={20} strokeWidth={2.5} />
+      <header className="sticky top-0 z-20 bg-brand-bg/95 dark:bg-gray-900/95 backdrop-blur-sm pt-safe border-b border-transparent dark:border-gray-800">
+        <div className="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+                <div className="bg-brand-blue text-white p-1.5 rounded-lg shadow-glow">
+                    <Trophy size={18} strokeWidth={2.5} />
                 </div>
-                <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">CricSync</h1>
+                <h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">CricSync</h1>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button 
                 onClick={() => setShowLogModal(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700 hover:text-brand-blue relative"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700 hover:text-brand-blue relative"
               >
-                <Terminal size={18} />
-                {logs.length > 0 && <span className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full border border-white"></span>}
+                <Terminal size={16} />
+                {logs.length > 0 && <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-green-500 rounded-full border border-white"></span>}
               </button>
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700"
               >
-                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+                {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
               </button>
             </div>
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-6 space-y-6 pt-2">
+      <main className="max-w-md mx-auto px-4 space-y-3 pt-3">
         
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             {activeTab === 'schedule' && (
-                <div className="space-y-6">
+                <div className="space-y-3">
                     <FixtureSettings 
                         fees={matchFees} 
                         setFees={setMatchFees} 
@@ -173,14 +173,14 @@ const App: React.FC = () => {
                     />
                     
                     {sources.length > 0 && (
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-soft">
+                        <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 shadow-soft">
                             <p className="text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
                                 <LinkIcon size={12} strokeWidth={2.5} /> Data Sources
                             </p>
                             <ul className="space-y-2">
                                 {sources.map((s, i) => (
                                     <li key={i}>
-                                        <a href={s.uri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-brand-blue hover:underline font-semibold bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
+                                        <a href={s.uri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-brand-blue hover:underline font-semibold bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
                                             <GlobeIcon />
                                             <span className="truncate">{s.title || 'Web Source'}</span>
                                         </a>
@@ -193,7 +193,7 @@ const App: React.FC = () => {
             )}
 
             {activeTab === 'generator' && (
-                <div className="space-y-6">
+                <div className="space-y-3">
                     {matches.length > 0 && (
                         <>
                             <WeekBar matches={matches} />
@@ -234,7 +234,7 @@ const App: React.FC = () => {
       {/* Log Modal */}
       {showLogModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm animate-in fade-in">
-            <div className="w-full max-w-lg bg-gray-900 rounded-[2rem] overflow-hidden shadow-2xl">
+            <div className="w-full max-w-lg bg-gray-900 rounded-3xl overflow-hidden shadow-2xl">
                 <LogConsole 
                     logs={logs} 
                     className="h-[500px]" 
@@ -246,8 +246,8 @@ const App: React.FC = () => {
       )}
 
       {/* Modern Floating Bottom Nav */}
-      <div className="fixed bottom-6 left-0 right-0 z-40 px-6 pointer-events-none">
-          <div className="max-w-[280px] mx-auto bg-white dark:bg-gray-800 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-1.5 flex items-center justify-between pointer-events-auto border border-gray-100 dark:border-gray-700">
+      <div className="fixed bottom-5 left-0 right-0 z-40 px-6 pointer-events-none">
+          <div className="max-w-[260px] mx-auto bg-white dark:bg-gray-800 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-1.5 flex items-center justify-between pointer-events-auto border border-gray-100 dark:border-gray-700">
               <NavButton 
                 active={activeTab === 'schedule'} 
                 onClick={() => setActiveTab('schedule')} 
@@ -276,16 +276,16 @@ const App: React.FC = () => {
 const NavButton = ({ active, onClick, icon: Icon, label, badge }: any) => (
     <button 
         onClick={onClick}
-        className={`relative flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-300 ${
+        className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
             active 
             ? 'bg-brand-blue text-white shadow-md' 
             : 'text-gray-400 hover:text-gray-600 dark:text-gray-500'
         }`}
     >
-        <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-        {active && <span className="text-xs font-bold animate-in fade-in slide-in-from-left-2 duration-200">{label}</span>}
+        <Icon size={18} strokeWidth={active ? 2.5 : 2} />
+        {active && <span className="text-[11px] font-bold animate-in fade-in slide-in-from-left-2 duration-200">{label}</span>}
         {badge > 0 && !active && (
-            <span className="absolute top-2 right-3 w-2 h-2 bg-brand-orange rounded-full ring-2 ring-white"></span>
+            <span className="absolute top-2 right-3 w-1.5 h-1.5 bg-brand-orange rounded-full ring-2 ring-white"></span>
         )}
     </button>
 );

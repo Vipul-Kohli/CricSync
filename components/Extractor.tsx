@@ -168,43 +168,43 @@ export const Extractor: React.FC<ExtractorProps> = ({
   ] as const;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-[2rem] shadow-soft overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-soft overflow-hidden">
       
       {/* Segmented Tab Control */}
-      <div className="p-2">
-        <div className="bg-brand-input dark:bg-gray-900 p-1.5 rounded-2xl flex relative">
+      <div className="p-1.5">
+        <div className="bg-brand-input dark:bg-gray-900 p-1 rounded-2xl flex relative">
             {tabs.map((tab) => {
                 const isActive = mode === tab.id;
                 return (
                     <button
                         key={tab.id}
                         onClick={() => onModeChange(tab.id as InputMode)}
-                        className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all relative z-10 ${
+                        className={`flex-1 py-2 rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-all relative z-10 ${
                             isActive ? 'text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400'
                         }`}
                     >
-                        <tab.icon size={16} strokeWidth={isActive ? 2.5 : 2} />
+                        <tab.icon size={14} strokeWidth={isActive ? 2.5 : 2} />
                         {tab.label}
                     </button>
                 )
             })}
             {/* Animated Background Pill */}
             <div 
-                className="absolute top-1.5 bottom-1.5 bg-white dark:bg-gray-800 rounded-xl shadow-sm transition-all duration-300"
+                className="absolute top-1 bottom-1 bg-white dark:bg-gray-800 rounded-xl shadow-sm transition-all duration-300"
                 style={{
-                    left: mode === 'search' ? '6px' : mode === 'image' ? '33.33%' : '66.66%',
-                    width: 'calc(33.33% - 4px)',
+                    left: mode === 'search' ? '4px' : mode === 'image' ? '33.33%' : '66.66%',
+                    width: 'calc(33.33% - 2.5px)',
                     transform: mode !== 'search' ? 'translateX(0px)' : 'translateX(0)' 
                 }}
             />
         </div>
       </div>
 
-      <div className="p-6 pt-2">
+      <div className="p-4 pt-1">
         {mode === 'search' && (
-             <form onSubmit={handleSearchSubmit} className="space-y-5">
-                 <div className="flex gap-4">
-                    <label className={`flex-1 cursor-pointer border-2 rounded-2xl p-3 flex flex-col items-center gap-2 transition-all ${searchQuery.searchType === 'link' ? 'border-brand-blue bg-blue-50/50 dark:bg-blue-900/20' : 'border-transparent bg-brand-input dark:bg-gray-900'}`}>
+             <form onSubmit={handleSearchSubmit} className="space-y-3">
+                 <div className="flex gap-3">
+                    <label className={`flex-1 cursor-pointer border-2 rounded-2xl p-2.5 flex flex-col items-center gap-1.5 transition-all ${searchQuery.searchType === 'link' ? 'border-brand-blue bg-blue-50/50 dark:bg-blue-900/20' : 'border-transparent bg-brand-input dark:bg-gray-900'}`}>
                         <input 
                             type="radio" 
                             name="searchType" 
@@ -212,13 +212,13 @@ export const Extractor: React.FC<ExtractorProps> = ({
                             onChange={() => setSearchQuery({...searchQuery, searchType: 'link'})}
                             className="hidden"
                         />
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${searchQuery.searchType === 'link' ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-400'}`}>
-                            <Link size={16} />
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center ${searchQuery.searchType === 'link' ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-400'}`}>
+                            <Link size={14} />
                         </div>
-                        <span className={`text-xs font-bold ${searchQuery.searchType === 'link' ? 'text-brand-blue' : 'text-gray-500'}`}>By Link</span>
+                        <span className={`text-[10px] font-bold ${searchQuery.searchType === 'link' ? 'text-brand-blue' : 'text-gray-500'}`}>By Link</span>
                     </label>
 
-                    <label className={`flex-1 cursor-pointer border-2 rounded-2xl p-3 flex flex-col items-center gap-2 transition-all ${searchQuery.searchType === 'details' ? 'border-brand-blue bg-blue-50/50 dark:bg-blue-900/20' : 'border-transparent bg-brand-input dark:bg-gray-900'}`}>
+                    <label className={`flex-1 cursor-pointer border-2 rounded-2xl p-2.5 flex flex-col items-center gap-1.5 transition-all ${searchQuery.searchType === 'details' ? 'border-brand-blue bg-blue-50/50 dark:bg-blue-900/20' : 'border-transparent bg-brand-input dark:bg-gray-900'}`}>
                         <input 
                             type="radio" 
                             name="searchType" 
@@ -226,42 +226,42 @@ export const Extractor: React.FC<ExtractorProps> = ({
                             onChange={() => setSearchQuery({...searchQuery, searchType: 'details'})}
                             className="hidden"
                         />
-                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${searchQuery.searchType === 'details' ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-400'}`}>
-                            <Globe size={16} />
+                         <div className={`w-7 h-7 rounded-full flex items-center justify-center ${searchQuery.searchType === 'details' ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-400'}`}>
+                            <Globe size={14} />
                         </div>
-                        <span className={`text-xs font-bold ${searchQuery.searchType === 'details' ? 'text-brand-blue' : 'text-gray-500'}`}>By Details</span>
+                        <span className={`text-[10px] font-bold ${searchQuery.searchType === 'details' ? 'text-brand-blue' : 'text-gray-500'}`}>By Details</span>
                     </label>
                  </div>
 
                  {searchQuery.searchType === 'details' ? (
-                     <div className="space-y-4">
-                        <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Team Name</label>
+                     <div className="space-y-3">
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Team Name</label>
                             <input 
                                 type="text" 
                                 required
-                                className="w-full bg-brand-input dark:bg-gray-900 px-4 py-3.5 rounded-2xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
+                                className="w-full bg-brand-input dark:bg-gray-900 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
                                 placeholder="e.g. Royal Strikers XI"
                                 value={searchQuery.teamName}
                                 onChange={e => setSearchQuery({...searchQuery, teamName: e.target.value})}
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Location</label>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Location</label>
                                 <input 
                                     type="text" 
-                                    className="w-full bg-brand-input dark:bg-gray-900 px-4 py-3.5 rounded-2xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
+                                    className="w-full bg-brand-input dark:bg-gray-900 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
                                     placeholder="e.g. Mumbai"
                                     value={searchQuery.location}
                                     onChange={e => setSearchQuery({...searchQuery, location: e.target.value})}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Captain</label>
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Captain</label>
                                 <input 
                                     type="text" 
-                                    className="w-full bg-brand-input dark:bg-gray-900 px-4 py-3.5 rounded-2xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
+                                    className="w-full bg-brand-input dark:bg-gray-900 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20"
                                     placeholder="e.g. Rohit"
                                     value={searchQuery.captainName}
                                     onChange={e => setSearchQuery({...searchQuery, captainName: e.target.value})}
@@ -270,12 +270,12 @@ export const Extractor: React.FC<ExtractorProps> = ({
                         </div>
                      </div>
                  ) : (
-                    <div className="space-y-2">
-                         <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Profile Link</label>
+                    <div className="space-y-1.5">
+                         <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Profile Link</label>
                          <input 
                             type="url" 
                             required
-                            className="w-full bg-brand-input dark:bg-gray-900 px-4 py-3.5 rounded-2xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20 text-brand-blue underline"
+                            className="w-full bg-brand-input dark:bg-gray-900 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-blue/20 text-brand-blue underline"
                             placeholder="https://cricheroes.in/..."
                             value={searchQuery.teamLink}
                             onChange={e => setSearchQuery({...searchQuery, teamLink: e.target.value})}
@@ -286,18 +286,18 @@ export const Extractor: React.FC<ExtractorProps> = ({
                  <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-brand-blue hover:bg-blue-600 text-white py-4 rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-95"
+                    className="w-full bg-brand-blue hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-95"
                 >
-                    {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} strokeWidth={2.5} />}
+                    {isLoading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} strokeWidth={2.5} />}
                     Find Matches
                 </button>
              </form>
         )}
 
         {mode === 'image' && (
-          <div className="space-y-4">
+          <div className="space-y-3">
              {imagePreview ? (
-               <div className="relative rounded-3xl overflow-hidden shadow-md">
+               <div className="relative rounded-2xl overflow-hidden shadow-md">
                   <img 
                     src={imagePreview} 
                     alt="Preview" 
@@ -311,12 +311,12 @@ export const Extractor: React.FC<ExtractorProps> = ({
                       }}
                       className="absolute top-3 right-3 bg-white text-gray-900 p-2 rounded-full shadow-lg"
                     >
-                      <X size={16} />
+                      <X size={14} />
                     </button>
                   
                   {isLoading && (
                      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
-                        <Loader2 className="animate-spin text-brand-blue mb-2" size={32} />
+                        <Loader2 className="animate-spin text-brand-blue mb-2" size={28} />
                         <span className="text-xs font-bold text-gray-500">Extracting Data...</span>
                      </div>
                   )}
@@ -324,7 +324,7 @@ export const Extractor: React.FC<ExtractorProps> = ({
              ) : (
                 <div 
                    onClick={() => fileInputRef.current?.click()}
-                   className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+                   className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
                 >
                     <input
                       type="file"
@@ -333,83 +333,83 @@ export const Extractor: React.FC<ExtractorProps> = ({
                       accept="image/*"
                       onChange={handleFileUpload}
                     />
-                    <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center text-brand-blue mb-4">
-                      <Camera size={28} />
+                    <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center text-brand-blue mb-3">
+                      <Camera size={24} />
                     </div>
                     <p className="text-sm font-bold text-gray-900 dark:text-white">Upload Screenshot</p>
-                    <p className="text-xs text-gray-400 mt-1">Tap to browse gallery</p>
+                    <p className="text-[10px] text-gray-400 mt-1">Tap to browse gallery</p>
                 </div>
              )}
           </div>
         )}
 
         {mode === 'text' && (
-          <form onSubmit={handleManualSubmit} className="space-y-4">
-             <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Opponent</label>
+          <form onSubmit={handleManualSubmit} className="space-y-3">
+             <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Opponent</label>
                 <div className="relative">
                     <input 
                         type="text" 
                         required
-                        className="w-full bg-brand-input dark:bg-gray-900 pl-11 pr-4 py-3.5 rounded-2xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
+                        className="w-full bg-brand-input dark:bg-gray-900 pl-10 pr-4 py-2.5 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
                         placeholder="Team Name"
                         value={manualEntry.opponent}
                         onChange={e => setManualEntry({...manualEntry, opponent: e.target.value})}
                     />
-                    <Shield className="absolute left-4 top-3.5 text-gray-400" size={18} />
+                    <Shield className="absolute left-3.5 top-2.5 text-gray-400" size={16} />
                 </div>
              </div>
 
-             <div className="grid grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Date</label>
+             <div className="grid grid-cols-2 gap-3">
+                 <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Date</label>
                     <div className="relative">
                         <input 
                             type="date" 
                             required
-                            className="w-full bg-brand-input dark:bg-gray-900 pl-11 pr-4 py-3.5 rounded-2xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
+                            className="w-full bg-brand-input dark:bg-gray-900 pl-10 pr-4 py-2.5 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
                             value={manualEntry.date}
                             onChange={e => setManualEntry({...manualEntry, date: e.target.value})}
                         />
-                        <Calendar className="absolute left-4 top-3.5 text-gray-400" size={18} />
+                        <Calendar className="absolute left-3.5 top-2.5 text-gray-400" size={16} />
                     </div>
                  </div>
-                 <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Time</label>
+                 <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Time</label>
                     <div className="relative">
                         <input 
                             type="time" 
                             required
-                            className="w-full bg-brand-input dark:bg-gray-900 pl-11 pr-4 py-3.5 rounded-2xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
+                            className="w-full bg-brand-input dark:bg-gray-900 pl-10 pr-4 py-2.5 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
                             value={manualEntry.time}
                             onChange={e => setManualEntry({...manualEntry, time: e.target.value})}
                         />
-                        <Clock className="absolute left-4 top-3.5 text-gray-400" size={18} />
+                        <Clock className="absolute left-3.5 top-2.5 text-gray-400" size={16} />
                     </div>
                  </div>
              </div>
 
-             <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Venue</label>
+             <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-gray-500 ml-1 uppercase">Venue</label>
                 <div className="relative">
                     <input 
                         type="text" 
                         required
-                        className="w-full bg-brand-input dark:bg-gray-900 pl-11 pr-4 py-3.5 rounded-2xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
+                        className="w-full bg-brand-input dark:bg-gray-900 pl-10 pr-4 py-2.5 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-brand-blue/20"
                         placeholder="Stadium Name"
                         value={manualEntry.venue}
                         onChange={e => setManualEntry({...manualEntry, venue: e.target.value})}
                     />
-                    <MapPin className="absolute left-4 top-3.5 text-gray-400" size={18} />
+                    <MapPin className="absolute left-3.5 top-2.5 text-gray-400" size={16} />
                 </div>
              </div>
 
              <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-brand-blue hover:bg-blue-600 text-white py-4 rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-95 mt-2"
+                className="w-full bg-brand-blue hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all active:scale-95 mt-1"
             >
-                {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Plus size={18} strokeWidth={2.5} />}
+                {isLoading ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} strokeWidth={2.5} />}
                 Add Match
             </button>
           </form>
@@ -417,15 +417,15 @@ export const Extractor: React.FC<ExtractorProps> = ({
 
         {/* Inline Logs */}
         {(isLoading || logs.length > 0) && (
-            <div className="mt-6">
-               <LogConsole logs={logs} isLoading={isLoading} className="rounded-2xl max-h-32 border border-gray-100 dark:border-gray-800" />
+            <div className="mt-4">
+               <LogConsole logs={logs} isLoading={isLoading} className="rounded-xl max-h-28 border border-gray-100 dark:border-gray-800" />
             </div>
         )}
 
         {error && (
-          <div className="mt-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-start gap-3 text-xs font-medium">
-            <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0 text-red-600">
-                <X size={12} strokeWidth={3} />
+          <div className="mt-4 p-3 bg-red-50 text-red-600 rounded-xl flex items-start gap-2 text-xs font-medium">
+            <div className="w-4 h-4 rounded-full bg-red-100 flex items-center justify-center shrink-0 text-red-600">
+                <X size={10} strokeWidth={3} />
             </div>
             {error}
           </div>
