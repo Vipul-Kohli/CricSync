@@ -57,7 +57,7 @@ const App: React.FC = () => {
     setMatches(prev => [...prev, ...newMatches]);
     setSources(result.sources);
     
-    // Auto-generate message (Note: matchFees/payToNumber might be empty initially, which is fine)
+    // Auto-generate message
     if (allMatches.length > 0) {
         try {
             const msg = await generateWhatsAppMessage(allMatches, 'casual', '', {
@@ -96,14 +96,12 @@ const App: React.FC = () => {
   };
 
   const handleShareMatch = async (id: string) => {
-    // 1. Select ONLY the clicked match, deselect others
     const updatedMatches = matches.map(m => ({
         ...m,
         selected: m.id === id
     }));
     setMatches(updatedMatches);
 
-    // 2. Find the match to generate content for immediately
     const targetMatch = updatedMatches.find(m => m.id === id);
     if (targetMatch) {
         setGeneratedMessage("Generating message for " + targetMatch.opponent + "...");
@@ -120,36 +118,32 @@ const App: React.FC = () => {
             setGeneratedMessage("Error generating message. Please try again in the Generator tab.");
         }
     }
-
-    // 3. Switch to Generator tab
     setActiveTab('generator');
   };
 
   return (
-    <div className="min-h-screen font-sans pb-24 transition-colors duration-300 relative text-gray-900 dark:text-gray-100">
-      {/* Glass Header */}
-      <header className="sticky top-0 z-20 transition-all duration-300 backdrop-blur-md bg-white/70 dark:bg-gray-900/60 border-b border-white/20 dark:border-white/5 shadow-sm">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-brand-dark dark:text-blue-400">
-                <div className="bg-gradient-to-br from-brand-orange to-red-500 p-1 rounded-xl text-white shadow-lg shadow-orange-500/20">
-                    <Trophy size={18} strokeWidth={2.5} />
+    <div className="min-h-screen bg-brand-bg dark:bg-gray-900 pb-28 text-gray-900 dark:text-gray-100">
+      {/* Clean Modern Header */}
+      <header className="sticky top-0 z-20 bg-brand-bg/90 dark:bg-gray-900/90 backdrop-blur-md pt-safe">
+        <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+                <div className="bg-brand-blue text-white p-2 rounded-xl shadow-glow">
+                    <Trophy size={20} strokeWidth={2.5} />
                 </div>
-                <h1 className="text-lg font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-500 dark:from-blue-400 dark:to-blue-200">CricSync</h1>
+                <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">CricSync</h1>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button 
                 onClick={() => setShowLogModal(true)}
-                className="p-1.5 rounded-full text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-white/10 transition-colors relative backdrop-blur-sm"
-                title="View System Logs"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700 hover:text-brand-blue relative"
               >
                 <Terminal size={18} />
-                {logs.length > 0 && <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>}
+                {logs.length > 0 && <span className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full border border-white"></span>}
               </button>
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-1.5 rounded-full text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-white/10 transition-colors backdrop-blur-sm"
-                title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-500 shadow-sm border border-gray-100 dark:border-gray-700"
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
@@ -157,11 +151,11 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-3 space-y-3">
+      <main className="max-w-md mx-auto px-6 space-y-6 pt-2">
         
-        <div className="animate-in fade-in zoom-in-95 duration-300">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             {activeTab === 'schedule' && (
-                <div className="space-y-3">
+                <div className="space-y-6">
                     <FixtureSettings 
                         fees={matchFees} 
                         setFees={setMatchFees} 
@@ -179,15 +173,16 @@ const App: React.FC = () => {
                     />
                     
                     {sources.length > 0 && (
-                        <div className="bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border border-white/20 dark:border-gray-700/50 rounded-xl p-3 text-xs transition-colors shadow-sm">
-                            <p className="text-gray-600 dark:text-gray-300 font-bold mb-1 flex items-center gap-1 uppercase tracking-wider">
-                                <LinkIcon size={12} strokeWidth={2.5} /> Sources:
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-soft">
+                            <p className="text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <LinkIcon size={12} strokeWidth={2.5} /> Data Sources
                             </p>
-                            <ul className="space-y-0.5">
+                            <ul className="space-y-2">
                                 {sources.map((s, i) => (
                                     <li key={i}>
-                                        <a href={s.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline truncate block font-medium">
-                                            {s.title || s.uri}
+                                        <a href={s.uri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-brand-blue hover:underline font-semibold bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
+                                            <GlobeIcon />
+                                            <span className="truncate">{s.title || 'Web Source'}</span>
                                         </a>
                                     </li>
                                 ))}
@@ -198,7 +193,7 @@ const App: React.FC = () => {
             )}
 
             {activeTab === 'generator' && (
-                <div className="space-y-3">
+                <div className="space-y-6">
                     {matches.length > 0 && (
                         <>
                             <WeekBar matches={matches} />
@@ -236,10 +231,10 @@ const App: React.FC = () => {
 
       </main>
 
-      {/* Log Modal with Glass Effect */}
+      {/* Log Modal */}
       {showLogModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in">
-            <div className="w-full max-w-2xl bg-gray-900/90 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 border border-white/10">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm animate-in fade-in">
+            <div className="w-full max-w-lg bg-gray-900 rounded-[2rem] overflow-hidden shadow-2xl">
                 <LogConsole 
                     logs={logs} 
                     className="h-[500px]" 
@@ -250,55 +245,55 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Glass Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-t border-white/20 dark:border-white/5 shadow-lg z-40 pb-safe transition-all duration-300">
-          <div className="max-w-3xl mx-auto flex items-center justify-around h-14">
-              <button 
-                onClick={() => setActiveTab('schedule')}
-                className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all ${
-                    activeTab === 'schedule' 
-                    ? 'text-brand-blue dark:text-blue-400 scale-105' 
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                }`}
-              >
-                  <Search size={20} strokeWidth={activeTab === 'schedule' ? 2.5 : 2} className="drop-shadow-sm" />
-                  <span className="text-[9px] font-bold">Scout</span>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('generator')}
-                className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all ${
-                    activeTab === 'generator' 
-                    ? 'text-brand-blue dark:text-blue-400 scale-105' 
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                }`}
-              >
-                  <div className="relative">
-                    <Wand2 size={20} strokeWidth={activeTab === 'generator' ? 2.5 : 2} className="drop-shadow-sm" />
-                    {matches.filter(m => m.selected).length > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-gradient-to-r from-brand-orange to-red-500 text-white text-[8px] w-3 h-3 flex items-center justify-center rounded-full shadow-sm font-bold">
-                            {matches.filter(m => m.selected).length}
-                        </span>
-                    )}
-                  </div>
-                  <span className="text-[9px] font-bold">Studio</span>
-              </button>
-
-              <button 
-                onClick={() => setActiveTab('social')}
-                className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all ${
-                    activeTab === 'social' 
-                    ? 'text-brand-blue dark:text-blue-400 scale-105' 
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                }`}
-              >
-                  <LinkIcon size={20} strokeWidth={activeTab === 'social' ? 2.5 : 2} className="drop-shadow-sm" />
-                  <span className="text-[9px] font-bold">Connect</span>
-              </button>
+      {/* Modern Floating Bottom Nav */}
+      <div className="fixed bottom-6 left-0 right-0 z-40 px-6 pointer-events-none">
+          <div className="max-w-[280px] mx-auto bg-white dark:bg-gray-800 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-1.5 flex items-center justify-between pointer-events-auto border border-gray-100 dark:border-gray-700">
+              <NavButton 
+                active={activeTab === 'schedule'} 
+                onClick={() => setActiveTab('schedule')} 
+                icon={Search} 
+                label="Scout" 
+              />
+              <NavButton 
+                active={activeTab === 'generator'} 
+                onClick={() => setActiveTab('generator')} 
+                icon={Wand2} 
+                label="Studio" 
+                badge={matches.filter(m => m.selected).length}
+              />
+              <NavButton 
+                active={activeTab === 'social'} 
+                onClick={() => setActiveTab('social')} 
+                icon={LinkIcon} 
+                label="Connect" 
+              />
           </div>
       </div>
     </div>
   );
 };
+
+const NavButton = ({ active, onClick, icon: Icon, label, badge }: any) => (
+    <button 
+        onClick={onClick}
+        className={`relative flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-300 ${
+            active 
+            ? 'bg-brand-blue text-white shadow-md' 
+            : 'text-gray-400 hover:text-gray-600 dark:text-gray-500'
+        }`}
+    >
+        <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+        {active && <span className="text-xs font-bold animate-in fade-in slide-in-from-left-2 duration-200">{label}</span>}
+        {badge > 0 && !active && (
+            <span className="absolute top-2 right-3 w-2 h-2 bg-brand-orange rounded-full ring-2 ring-white"></span>
+        )}
+    </button>
+);
+
+const GlobeIcon = () => (
+    <div className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-800 flex items-center justify-center shrink-0">
+        <div className="w-2 h-2 bg-brand-blue rounded-full"></div>
+    </div>
+)
 
 export default App;

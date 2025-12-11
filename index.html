@@ -2,25 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>CricSync - Cricket Team Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
             },
             colors: {
               brand: {
-                blue: '#2563EB',    // Primary Blue
-                dark: '#1E3A8A',    // Dark Blue
+                blue: '#3B82F6',    // Bright Blue
+                dark: '#111827',    // Near Black
                 orange: '#F97316',  // Orange Accent
-                light: '#EFF6FF',   // Light Blue Background
+                bg: '#F8F9FC',      // Clean Light Gray Background
+                card: '#FFFFFF',    // Pure White
+                input: '#F3F4F6',   // Input Gray
               }
+            },
+            boxShadow: {
+              'soft': '0 10px 40px -10px rgba(0,0,0,0.05)',
+              'glow': '0 0 20px rgba(59, 130, 246, 0.15)'
             }
           }
         }
@@ -28,56 +34,27 @@
     </script>
     <style>
       body {
-        /* Liquid Gradient Background */
-        background: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 50%, #dbeafe 100%);
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
+        background-color: #F8F9FC;
+        color: #1F2937;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       .dark body {
-        background: linear-gradient(to bottom right, #0f172a, #172554, #1e1b4b);
+        background-color: #0F172A;
+        color: #F3F4F6;
       }
       
-      /* Ambient decorative blobs for glass effect */
-      .blob {
-        position: fixed;
-        filter: blur(80px);
-        z-index: -1;
-        opacity: 0.5;
-        border-radius: 50%;
-        pointer-events: none;
-      }
-      .blob-1 {
-        top: -10%;
-        left: -10%;
-        width: 500px;
-        height: 500px;
-        background: #3b82f6;
-        animation: float 20s infinite alternate;
-      }
-      .blob-2 {
-        bottom: -10%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-        background: #f97316;
-        animation: float 15s infinite alternate-reverse;
-      }
-      .dark .blob-1 { opacity: 0.2; }
-      .dark .blob-2 { opacity: 0.15; }
-
-      @keyframes float {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(50px, 50px) scale(1.1); }
-      }
-      
-      /* Hide scrollbar for cleaner glass look */
+      /* Hide scrollbar */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 0px;
+        background: transparent;
       }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(156, 163, 175, 0.5);
-        border-radius: 10px;
+      
+      /* Smooth transitions */
+      * {
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
       }
     </style>
   <script type="importmap">
@@ -93,8 +70,6 @@
 </script>
 </head>
   <body>
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
     <div id="root"></div>
   </body>
 </html>

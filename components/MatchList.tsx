@@ -18,175 +18,100 @@ export const MatchList: React.FC<MatchListProps> = ({ matches, onUpdateMatch, on
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return 'TBD';
-
     try {
       const date = new Date(dateStr);
-      
-      if (isNaN(date.getTime())) {
-        console.warn(`[MatchList] Invalid date format received: "${dateStr}"`);
-        return dateStr;
-      }
-
-      return date.toLocaleDateString('en-GB', { 
-        day: '2-digit', 
-        month: 'short', 
-        year: '2-digit' 
-      }).replace(/ /g, '-');
-    } catch (e) {
-      console.error(`[MatchList] Error formatting date: ${dateStr}`, e);
-      return dateStr;
-    }
-  };
-
-  const getMatchTimestamp = (m: Match) => {
-    try {
-      const str = `${m.date} ${m.time}`;
-      const ts = Date.parse(str);
-      return isNaN(ts) ? (sortOrder === 'asc' ? Infinity : -Infinity) : ts;
-    } catch {
-      return 0;
-    }
+      if (isNaN(date.getTime())) return dateStr;
+      return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }).replace(/ /g, '-');
+    } catch { return dateStr; }
   };
 
   const sortedMatches = [...matches].sort((a, b) => {
-    const tA = getMatchTimestamp(a);
-    const tB = getMatchTimestamp(b);
+    const tA = new Date(a.date).getTime();
+    const tB = new Date(b.date).getTime();
     return sortOrder === 'asc' ? tA - tB : tB - tA;
   });
 
-  const toggleSort = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-  };
-
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between mb-2 px-1">
-        <h3 className="text-lg font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 flex items-center gap-2">
-          <span className="bg-brand-orange text-white text-xs font-bold px-2 py-0.5 rounded-lg shadow-md shadow-orange-500/20">{matches.length}</span>
-          Upcoming Matches
+    <div className="space-y-4">
+      <div className="flex items-center justify-between px-2">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+          <span className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/20 text-brand-orange flex items-center justify-center text-sm font-bold shadow-sm">{matches.length}</span>
+          Matches
         </h3>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={onAddMatch}
-            className="flex items-center gap-1 text-[10px] text-brand-blue hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-bold px-2.5 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all backdrop-blur-sm border border-transparent hover:border-blue-100 dark:hover:border-blue-800"
-          >
-            <Plus size={14} strokeWidth={3} />
-            Add Match
+        <div className="flex items-center gap-3">
+          <button onClick={onAddMatch} className="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-brand-blue">
+            <Plus size={18} strokeWidth={2.5} />
           </button>
-          <div className="h-3 w-px bg-gray-300 dark:bg-gray-700"></div>
-          <button 
-            onClick={toggleSort}
-            className="flex items-center gap-1 text-[10px] text-gray-600 hover:text-brand-blue dark:text-gray-400 dark:hover:text-blue-400 font-bold px-2.5 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
-          >
-            <ArrowUpDown size={12} strokeWidth={2.5} />
-            {sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
+          <button onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')} className="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-sm text-gray-500">
+            <ArrowUpDown size={16} />
           </button>
-          <div className="h-3 w-px bg-gray-300 dark:bg-gray-700"></div>
-          <button 
-              onClick={onClearAll}
-              className="text-[10px] text-red-500 hover:text-red-700 dark:hover:text-red-400 font-bold px-2.5 py-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
-          >
-              Clear All
+          <button onClick={onClearAll} className="text-xs font-bold text-red-500 px-3 py-1.5 bg-red-50 rounded-full">
+            Clear
           </button>
         </div>
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid gap-4">
         {sortedMatches.map((match) => (
           <div 
             key={match.id}
-            className={`group relative rounded-2xl p-3 transition-all duration-300 cursor-pointer backdrop-blur-xl border ${
-              match.selected 
-                ? 'bg-white/90 dark:bg-gray-800/90 border-brand-blue shadow-xl shadow-blue-500/10 scale-[1.01]' 
-                : 'bg-white/50 dark:bg-gray-800/40 border-white/40 dark:border-white/10 hover:bg-white/70 dark:hover:bg-gray-800/60 hover:shadow-lg'
-            }`}
             onClick={() => onUpdateMatch(match.id, { selected: !match.selected })}
+            className={`relative bg-white dark:bg-gray-800 rounded-[2rem] p-5 shadow-soft border-2 transition-all cursor-pointer group ${
+                match.selected ? 'border-brand-blue' : 'border-transparent hover:border-gray-100 dark:hover:border-gray-700'
+            }`}
           >
-            <div className="flex items-start gap-3">
-              <div className={`mt-1 transition-all duration-300 ${match.selected ? 'text-brand-blue scale-110' : 'text-gray-400 dark:text-gray-600'}`}>
-                {match.selected ? <CheckCircle2 size={22} className="fill-brand-light dark:fill-blue-900/30" strokeWidth={2.5} /> : <Circle size={22} strokeWidth={2} />}
-              </div>
-              
-              <div className="flex-1 min-w-0 pr-8">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                    <div className="flex items-center gap-2 text-gray-900 dark:text-white font-black text-lg truncate">
-                        <div className="p-1.5 bg-brand-orange/10 rounded-lg text-brand-orange shrink-0">
-                            <Shield size={16} strokeWidth={2.5} />
-                        </div>
-                        <div className="truncate flex items-center gap-2">
-                            <span className="text-gray-800 dark:text-gray-100">{match.homeTeam || 'My Team'}</span>
-                            <span className="text-[10px] font-black text-brand-orange bg-brand-orange/10 px-1.5 py-0.5 rounded-md">VS</span>
-                            <span>{match.opponent}</span>
-                        </div>
-                        {match.matchUrl && (
-                             <a 
-                                href={match.matchUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-gray-400 hover:text-brand-blue transition-colors shrink-0 ml-1"
-                                title="View Match Page"
-                                onClick={(e) => e.stopPropagation()}
-                             >
-                                <ExternalLink size={14} strokeWidth={2.5} />
-                             </a>
-                        )}
-                    </div>
-                </div>
+            {/* Selection Checkbox */}
+            <div className={`absolute top-5 right-5 transition-colors ${match.selected ? 'text-brand-blue' : 'text-gray-300'}`}>
+                {match.selected ? <CheckCircle2 size={24} className="fill-blue-50" strokeWidth={2.5} /> : <Circle size={24} />}
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-xs">
-                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-black/20 p-2 rounded-lg border border-white/30 dark:border-white/5">
-                        <Calendar size={14} className="text-brand-blue dark:text-blue-400 shrink-0" strokeWidth={2.5} />
-                        <span className="font-bold">{formatDate(match.date)}</span>
+            {/* Teams */}
+            <div className="pr-10 mb-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-brand-blue">
+                        <Shield size={20} strokeWidth={2.5} />
                     </div>
-                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-black/20 p-2 rounded-lg border border-white/30 dark:border-white/5">
-                        <Clock size={14} className="text-brand-blue dark:text-blue-400 shrink-0" strokeWidth={2.5} />
-                        <span className="font-bold">{match.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 sm:col-span-2 group/venue text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-black/20 p-2 rounded-lg border border-white/30 dark:border-white/5">
-                        <MapPin size={14} className="text-brand-blue dark:text-blue-400 shrink-0" strokeWidth={2.5} />
-                        
-                        {match.mapLink ? (
-                             <a 
-                                href={match.mapLink} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="truncate hover:text-brand-blue dark:hover:text-blue-400 hover:underline decoration-dotted underline-offset-2 transition-all flex items-center gap-1 w-full font-bold"
-                                title="View on Google Maps"
-                                onClick={(e) => e.stopPropagation()}
-                             >
-                                <span className="truncate">{match.venue}</span>
-                                <ExternalLink size={10} className="opacity-0 group-hover/venue:opacity-50 transition-opacity shrink-0 ml-auto" strokeWidth={2.5} />
-                             </a>
-                        ) : (
-                            <span className="truncate font-bold">{match.venue}</span>
-                        )}
+                    <div>
+                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Versus</p>
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">{match.opponent}</h4>
                     </div>
                 </div>
-              </div>
+            </div>
+
+            {/* Match Info Grid */}
+            <div className="grid grid-cols-2 gap-3 mb-2">
+                <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-center gap-3">
+                    <Calendar size={18} className="text-brand-blue shrink-0" />
+                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{formatDate(match.date)}</span>
+                </div>
+                <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-center gap-3">
+                    <Clock size={18} className="text-brand-orange shrink-0" />
+                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{match.time}</span>
+                </div>
             </div>
             
-            {/* Action Buttons */}
-            <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                <button 
-                    className="p-2 text-brand-blue bg-blue-50/80 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-sm backdrop-blur-sm scale-90 hover:scale-100 border border-blue-200 dark:border-blue-800"
-                    title="Generate & Share"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onShareMatch(match.id);
-                    }}
-                >
-                    <Share2 size={14} strokeWidth={2.5} />
-                </button>
-                <button 
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50/80 dark:hover:bg-red-900/30 dark:hover:text-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm scale-90 hover:scale-100 border border-transparent hover:border-red-200"
-                    title="Remove Match"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onDeleteMatch(match.id);
-                    }}
-                >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+            {/* Venue */}
+            <div className="bg-brand-input dark:bg-gray-900/50 p-3 rounded-2xl flex items-start gap-3">
+                <MapPin size={18} className="text-red-500 shrink-0 mt-0.5" />
+                {match.mapLink ? (
+                    <a href={match.mapLink} target="_blank" className="text-sm font-bold text-gray-700 hover:text-brand-blue truncate underline decoration-dotted underline-offset-4" onClick={e => e.stopPropagation()}>
+                        {match.venue}
+                    </a>
+                ) : (
+                    <span className="text-sm font-bold text-gray-700 truncate">{match.venue}</span>
+                )}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="mt-4 flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                 <button onClick={(e) => { e.stopPropagation(); onShareMatch(match.id); }} className="p-2 rounded-full bg-blue-50 text-brand-blue hover:bg-brand-blue hover:text-white transition-colors">
+                    <Share2 size={16} />
+                 </button>
+                 {match.matchUrl && (
+                    <a href={match.matchUrl} target="_blank" onClick={e => e.stopPropagation()} className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+                        <ExternalLink size={16} />
+                    </a>
+                 )}
             </div>
           </div>
         ))}
